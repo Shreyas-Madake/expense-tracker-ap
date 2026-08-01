@@ -1,4 +1,4 @@
-import { CfnEIP, CfnInternetGateway, CfnNatGateway, CfnRoute, CfnVPCGatewayAttachment, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { CfnEIP, CfnInternetGateway, CfnNatGateway, CfnRoute, CfnVPCGatewayAttachment, IpAddresses, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -9,7 +9,7 @@ export class CdkStack extends cdk.Stack {
 
    const vpc = new Vpc(this, "myVPC", {// this is for creating a VPC with 2 public and 2 private subnets
       vpcName: "expenseTracker",
-      cidr: "10.0.0.0/16",
+      ipAddresses: IpAddresses.cidr("10.0.0.0/16"),
       maxAzs: 2,
       natGateways: 2,
       createInternetGateway: false,
@@ -78,5 +78,6 @@ export class CdkStack extends cdk.Stack {
         exportName: `PrivateSubnet-${index}`
       });
     })
+    
   }
 }
