@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -53,6 +54,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserInfo checkIfUserAlreadyExists(UserInfoDto userInfoDto) {
         return userRepository.findByUsername(userInfoDto.getUsername());// this for checking if user already exists or not .getUsername() is used to get the username from userInfoDto object
     }
+
+    public String getUserByUsername(String userName){
+        return Optional.of(userRepository.findByUsername(userName)).map(UserInfo::getUserId).orElse(null);
+    }
+
     public Boolean signupUser(UserInfoDto userInfoDto){
         //        ValidationUtil.validateUserAttributes(userInfoDto);
         userInfoDto.setPassword(passwordEncoder.encode(userInfoDto.getPassword()));
